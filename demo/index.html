@@ -4,17 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Library Name</title>
+  <title>Suggest</title>
 </head>
 <body>
-  <div>Hello There!</div>
+  <div id="app"></div>
   <!-- Do Stuff -->
-  <script src="../dist/LibraryName.js"></script>
+  <script src="../dist/suggest.js"></script>
   <script>
-    var x = new LibraryName({
-      a: 'b'
+    new Suggest('#app', {
+      type: 'json',
+      url: './source.json',
+      minimal: 3
     })
-    console.log(x.getRectangle(2, 2))
   </script>
 </body>
 </html>

@@ -1,9 +1,10 @@
 {
-  "name": "LibraryName",
+  "name": "suggest-js",
   "version": "1.0",
   "description": "Library Description",
   "main": "/src/index.js",
-  "npmName": "LibraryName",
+  "libName": "suggest",
+  "npmName": "suggest-js",
   "npmFileMap": [
     {
       "basePath": "lib",

@@ -22,7 +22,7 @@
   "parser": "babel-eslint",
 
   "plugins": [
-    
+    "eslint-plugin-standard"
   ],
 
   "rules": {

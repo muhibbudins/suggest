@@ -14,7 +14,8 @@
     }
   ],
   "scripts": {
-    "build": "babel index.js -d dist"
+    "start": "babel index.js --watch -d dist",
+    "build": "minify dist -d dist"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.3",
     "babel-loader": "^7.1.2",
+    "babel-minify": "^0.5.0",
     "babel-preset-es2015": "^6.24.1"
   }
 }

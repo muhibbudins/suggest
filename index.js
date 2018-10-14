@@ -38,6 +38,7 @@ class Suggest {
   }
 
   start() {
+    const container = document.querySelector('body')
     const wrapper = document.querySelector(this.wrapper)
 
     wrapper.innerHTML = this.template()
@@ -63,6 +64,24 @@ class Suggest {
       } else {
         list.classList.remove('suggest-list_active')
       }
+    }, false)
+
+    input.addEventListener('focus', (e) => {
+      const value = e.target.value
+
+      if (value.length >= this.options['minimal']) {
+        list.classList.add('suggest-list_active')
+      } else {
+        list.classList.remove('suggest-list_active')
+      }
+    }, false)
+
+    wrapper.addEventListener('click', (e) => {
+      e.stopPropagation()
+    }, false)
+
+    container.addEventListener('click', (e) => {
+      list.classList.remove('suggest-list_active')
     }, false)
   }
 }

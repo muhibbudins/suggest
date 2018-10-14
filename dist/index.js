@@ -11,6 +11,7 @@ var Suggest = function () {
     this.wrapper = app;
     this.id = 'asdasd';
     this.options = Object.assign({}, opts);
+    this.state = {};
     this.start();
   }
 
@@ -21,24 +22,27 @@ var Suggest = function () {
     }
   }, {
     key: 'result',
-    value: function result(data, query) {
+    value: function result(data, regex) {
       return data.map(function (item) {
-        var search = '(' + query.split(' ').join('|') + ')';
-        var regex = new RegExp(search, 'g');
         var title = item['title'].toLowerCase().replace(regex, '<b>$1</b>');
 
-        return '<div class="suggest-list_item">' + title + '</div>';
+        return '<div class="suggest-list_item" data-title="' + item['title'] + '" data-value="' + item['value'] + '">' + title + '</div>';
       }).join('\n');
     }
   }, {
     key: 'draw',
-    value: function draw(wrapper, query) {
+    value: async function draw(wrapper, query) {
       var _this = this;
 
-      fetch(this.options['url']).then(function (res) {
+      await fetch(this.options['url']).then(function (res) {
         return res.json();
       }).then(function (res) {
-        wrapper.innerHTML = _this.result(res, query);
+        var search = '(' + query.split(/ /g).join('|') + ')';
+        var regex = new RegExp(search, 'g');
+
+        wrapper.innerHTML = _this.result(res.filter(function (item) {
+          return regex.test(item['value']) || regex.test(item['title']);
+        }), regex);
       });
     }
   }, {
@@ -60,7 +64,14 @@ var Suggest = function () {
         if (value.length >= _this2.options['minimal']) {
           list.classList.add('suggest-list_active');
 
-          _this2.draw(list, value);
+          _this2.draw(list, value).then(function () {
+            list.querySelectorAll('.suggest-list_item').forEach(function (element) {
+              element.addEventListener('click', function (e) {
+                _this2.state = e.target.dataset;
+                input.value = _this2.state['title'];
+              }, false);
+            });
+          });
         } else {
           list.classList.remove('suggest-list_active');
         }

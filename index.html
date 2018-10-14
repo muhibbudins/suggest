@@ -5,6 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Suggest</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    .suggest-wrapper {
+      width: 300px;
+      position: relative;
+    }
+    .suggest-wrapper input {
+      width: 100%;
+      padding: .5rem 1rem;
+      display: block;
+      position: relative;
+    }
+    .suggest-wrapper .suggest-list {
+      width: 100%;
+      min-height: 200px;
+      border: 1px solid #DEDEDE;
+      display: none;
+    }
+    .suggest-wrapper .suggest-list.suggest-list_active {
+      display: block;
+    }
+    .suggest-wrapper .suggest-list .suggest-list_item {
+      width: 100%;
+      padding: .5rem;
+      border-bottom: 1px solid #DEDEDE;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>

@@ -3,6 +3,7 @@ class Suggest {
     this.wrapper = app
     this.id = 'asdasd'
     this.options = Object.assign({}, opts)
+    this.state = {}
     this.start()
   }
 
@@ -15,21 +16,24 @@ class Suggest {
     `
   }
 
-  result(data, query) {
+  result(data, regex) {
     return data.map(item => {
-      const search = `(${query.split(' ').join('|')})`
-      const regex = new RegExp(search, 'g')
       const title = item['title'].toLowerCase().replace(regex, '<b>$1</b>')
 
-      return `<div class="suggest-list_item">${title}</div>`
+      return `<div class="suggest-list_item" data-title="${item['title']}" data-value="${item['value']}">${title}</div>`
     }).join('\n')
   }
 
-  draw(wrapper, query) {
-    fetch(this.options['url'])
+  async draw(wrapper, query) {
+    await fetch(this.options['url'])
       .then(res => res.json())
       .then(res => {
-        wrapper.innerHTML = this.result(res, query)
+        const search = `(${query.split(/ /g).join('|')})`
+        const regex = new RegExp(search, 'g')
+
+        wrapper.innerHTML = this.result(
+          res.filter(item => regex.test(item['value']) || regex.test(item['title'])), regex
+        )
       })
   }
 
@@ -48,7 +52,14 @@ class Suggest {
       if (value.length >= this.options['minimal']) {
         list.classList.add('suggest-list_active')
 
-        this.draw(list, value)
+        this.draw(list, value).then(() => {
+          list.querySelectorAll('.suggest-list_item').forEach(element => {
+            element.addEventListener('click', (e) => {
+              this.state = e.target.dataset
+              input.value = this.state['title']
+            }, false)
+          })
+        })
       } else {
         list.classList.remove('suggest-list_active')
       }

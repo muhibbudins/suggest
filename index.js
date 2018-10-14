@@ -1,10 +1,14 @@
 class Suggest {
   constructor(app, opts) {
     this.wrapper = app
-    this.id = 'asdasd'
+    this.id = this.unique()
     this.options = Object.assign({}, opts)
     this.state = {}
     this.start()
+  }
+
+  unique() {
+    return 'id-' + Math.random().toString(36).substr(2, 16)
   }
 
   template() {

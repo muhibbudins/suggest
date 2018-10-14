@@ -37,6 +37,7 @@
       padding: .5rem;
       border-bottom: 1px solid #DEDEDE;
       cursor: pointer;
+      text-transform: capitalize;
     }
   </style>
 </head>
@@ -47,7 +48,7 @@
   <script>
     new Suggest('#app', {
       type: 'json',
-      url: './source.json',
+      url: './example/source.json',
       minimal: 3
     })
   </script>
